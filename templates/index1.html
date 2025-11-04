@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic ATS Resume Scorer</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        textarea { width: 60%; height: 150px; margin-bottom: 20px; }
+        input[type=file] { margin: 20px 0; }
+        .score { font-size: 24px; color: green; margin-top: 20px; }
+        .message { font-size: 18px; color: red; margin-top: 20px; }
+        .matched, .missing { margin-top: 10px; font-size: 16px; }
+        .missing { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Dynamic ATS Resume Scorer</h1>
+    <form method="post" enctype="multipart/form-data">
+        <textarea name="job_description" placeholder="Enter the Job Description here..." required></textarea>
+        <br>
+        <input type="file" name="resume" required>
+        <br>
+        <button type="submit">Upload & Score</button>
+    </form>
+
+    {% if message %}
+        <div class="message">{{ message }}</div>
+    {% endif %}
+
+    {% if score is not none %}
+        <div class="score">ATS Score: {{ score }}%</div>
+        
+        {% if matched %}
+            <div class="matched">
+                 Matched Skills: {{ matched | join(', ') }}
+            </div>
+        {% endif %}
+        
+        {% if missing %}
+            <div class="missing">
+                ⚠️ Missing Skills to Add: {{ missing | join(', ') }}
+            </div>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

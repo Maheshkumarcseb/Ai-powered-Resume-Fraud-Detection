@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Analysis Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-light">
+  <div class="container mt-5">
+    <h3>Welcome, {{ name }}</h3>
+    <hr>
+    <p><b>LinkedIn URL:</b> {{ linkedin_url or 'Not Found' }}</p>
+    {% if linkedin_valid %}
+      <p class="text-success"> LinkedIn profile verified: {{ linkedin_title }}</p>
+    {% else %}
+      <p class="text-danger"> LinkedIn profile could not be verified</p>
+    {% endif %}
+
+    <h5>Profile Score: {{ score }}/100</h5>
+    <div class="progress mb-4">
+      <div class="progress-bar bg-success" style="width: {{ score }}%"></div>
+    </div>
+
+    <h4>Skills Comparison</h4>
+    <canvas id="skillsChart" height="100"></canvas>
+    <script>
+      const ctx = document.getElementById('skillsChart');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Matched', 'Missing', 'Total Resume Skills'],
+          datasets: [{
+            label: 'Skills Overview',
+            data: [{{ matched|length }}, {{ missing|length }}, {{ resume_skills|length }}],
+            backgroundColor: ['#28a745', '#dc3545', '#007bff']
+          }]
+        }
+      });
+    </script>
+
+    <h5 class="mt-4">Matched Skills:</h5>
+    <p>{{ matched | join(', ') or 'None' }}</p>
+
+    <h5>Missing Skills (LinkedIn):</h5>
+    <p>{{ missing | join(', ') or 'None' }}</p>
+  </div>
+</body>
+</html>

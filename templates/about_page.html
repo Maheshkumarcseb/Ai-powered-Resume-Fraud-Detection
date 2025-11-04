@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Career Toolkit</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #e9ecef; padding-top: 60px; }
+        .navbar { 
+            position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center;
+            background-color: #343a40; padding: 10px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 1000;
+        }
+        .navbar-brand { color: #ffffff; text-decoration: none; font-size: 1.5em; font-weight: 600; }
+        .about-container { max-width: 800px; margin: 80px auto; padding: 40px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; }
+        .back-link { display: block; margin-top: 20px; font-size: 1em; color: #dc3545; text-decoration: none; text-align: center; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('main_index') }}" class="navbar-brand">🚀 Career Toolkit</a>
+    </nav>
+    
+    <div class="container">
+        <div class="about-container">
+            <h1 class="mb-4 text-primary">About the Integrated Career Toolkit</h1>
+            <p class="lead mb-5">
+                Our mission is to empower job seekers by providing a powerful, all-in-one suite of AI-driven tools to enhance resumes, analyze digital profiles, and prepare for interviews.
+            </p>
+            
+            <div class="row text-start">
+                <div class="col-md-6 mb-4">
+                    <h4 class="text-success"> Our Vision</h4>
+                    <p>To bridge the gap between candidate qualifications and employer expectations using intelligent analysis, making the job search process more transparent and effective.</p>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <h4 class="text-info"> Key Features</h4>
+                    <ul>
+                        <li>**ATS Scorer:** Maximize resume keyword matching.</li>
+                        <li>**AI Question Generator:** Prepare for interviews based on your specific skills.</li>
+                        <li>**Profile Dashboard:** Synchronize your resume with your LinkedIn presence.</li>
+                        <li>**Plagiarism Check:** Ensure your resume is unique and professional.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-4 pt-4 border-top">
+                <p class="text-muted">Developed with Flask, Python, and modern machine learning technologies.</p>
+            </div>
+        </div>
+        <a href="{{ url_for('main_index') }}" class="back-link">← Back to Dashboard</a>
+    </div>
+</body>
+</html>

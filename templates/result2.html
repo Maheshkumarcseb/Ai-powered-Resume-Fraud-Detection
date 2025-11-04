@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GitHub Analysis Result</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      padding: 30px;
+      text-align: center;
+    }
+    .card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      width: 400px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    {% if analysis.error %}
+      <h2>{{ analysis.error }}</h2>
+    {% else %}
+      <h2>GitHub Profile Analysis</h2>
+      <p><strong>Name:</strong> {{ analysis.name }}</p>
+      <p><strong>Username:</strong> {{ analysis.username }}</p>
+      <p><strong>Followers:</strong> {{ analysis.followers }}</p>
+      <p><strong>Following:</strong> {{ analysis.following }}</p>
+      <p><strong>Public Repos:</strong> {{ analysis.public_repos }}</p>
+      <p><strong>Top Repositories:</strong></p>
+      <ul>
+        {% for repo in analysis.top_repos %}
+          <li>{{ repo }}</li>
+        {% endfor %}
+      </ul>
+      <a href="{{ analysis.profile_link }}" target="_blank">View Profile</a>
+    {% endif %}
+  </div>
+</body>
+</html>

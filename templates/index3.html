@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Resume Interview Question Generator</title>
+  <style>
+    body { font-family: Arial; margin: 40px; background-color: #f8f9fa; }
+    h1 { color: #2c3e50; }
+    form { margin-bottom: 30px; }
+    .skills, .questions { margin-top: 20px; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 0 8px #ccc; }
+    ul { list-style-type: square; }
+  </style>
+</head>
+<body>
+  <h1>AI-Powered Resume Question Generator</h1>
+  <form method="POST" enctype="multipart/form-data">
+    <label><b>Upload Resume (.pdf or .docx):</b></label><br><br>
+    <input type="file" name="resume" required>
+    <button type="submit">Generate Questions</button>
+  </form>
+
+  {% if error %}
+    <p style="color:red;">{{ error }}</p>
+  {% endif %}
+
+  {% if skills %}
+    <div class="skills">
+      <h2>Extracted Technical Skills:</h2>
+      <ul>
+        {% for skill in skills %}
+          <li>{{ skill }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  {% if questions %}
+    <div class="questions">
+      <h2>Generated Interview Questions:</h2>
+      {% for skill, qs in questions.items() %}
+        <h3>{{ skill | capitalize }}</h3>
+        <ul>
+          {% for q in qs %}
+            <li>{{ q }}</li>
+          {% endfor %}
+        </ul>
+      {% endfor %}
+    </div>
+  {% endif %}
+</body>
+</html>
