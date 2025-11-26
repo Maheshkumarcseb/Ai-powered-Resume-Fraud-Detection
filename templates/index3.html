@@ -1,50 +1,241 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>AI Resume Interview Question Generator</title>
-  <style>
-    body { font-family: Arial; margin: 40px; background-color: #f8f9fa; }
-    h1 { color: #2c3e50; }
-    form { margin-bottom: 30px; }
-    .skills, .questions { margin-top: 20px; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 0 8px #ccc; }
-    ul { list-style-type: square; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Interview Question Generator</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            padding-top: 80px; /* Navbar spacing */
+            font-family: "Poppins", sans-serif;
+            background: #0f0f10;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* -------- NAVIGATION BAR -------- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #343a40;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 2000;
+        }
+
+        .navbar-brand {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-links a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 20px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar-links a:hover {
+            background-color: #007bff;
+        }
+
+        /* -------- FLOATING SHAPES -------- */
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.5;
+            animation: float 8s infinite alternate ease-in-out;
+            z-index: -1;
+        }
+
+        .shape1 {
+            width: 350px;
+            height: 350px;
+            background: #4c6ef5;
+            top: 40px;
+            left: -80px;
+        }
+
+        .shape2 {
+            width: 330px;
+            height: 330px;
+            background: #15aabf;
+            bottom: 40px;
+            right: -40px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(40px); }
+        }
+
+        /* -------- GLASSMORPHIC CONTAINER -------- */
+        .container {
+            width: 90%;
+            max-width: 700px;
+            margin: auto;
+            background: rgba(255,255,255,0.10);
+            backdrop-filter: blur(18px);
+            padding: 35px;
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 8px 35px rgba(0,0,0,0.4);
+            margin-top: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 30px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        button {
+            margin-top: 15px;
+            background: linear-gradient(135deg, #4c6ef5, #15aabf);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 17px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(21,170,191,0.8);
+        }
+
+        .skills, .questions {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(255,255,255,0.20);
+            border-radius: 12px;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            margin-top: 15px;
+            color: #a8f0ff;
+        }
+
+        ul {
+            list-style-type: square;
+        }
+
+    </style>
 </head>
+
 <body>
-  <h1>AI-Powered Resume Question Generator</h1>
-  <form method="POST" enctype="multipart/form-data">
-    <label><b>Upload Resume (.pdf or .docx):</b></label><br><br>
-    <input type="file" name="resume" required>
-    <button type="submit">Generate Questions</button>
-  </form>
 
-  {% if error %}
-    <p style="color:red;">{{ error }}</p>
-  {% endif %}
+    <!-- -------- NAVBAR -------- -->
+    <nav class="navbar">
+        <a href="{{ url_for('main_index') }}" class="navbar-brand">🚀 Career Toolkit</a>
 
-  {% if skills %}
-    <div class="skills">
-      <h2>Extracted Technical Skills:</h2>
-      <ul>
-        {% for skill in skills %}
-          <li>{{ skill }}</li>
-        {% endfor %}
-      </ul>
+        <div class="navbar-links">
+            <a href="{{ url_for('about_page') }}">About Us</a>
+            <a href="{{ url_for('contact_page') }}">Contact</a>
+            <a href="{{ url_for('help_page') }}">Help</a>
+            <a href="{{ url_for('login_page') }}">Login</a>
+            <a href="{{ url_for('signup_page') }}">Sign Up</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+
+            <a href="{{ url_for('your_profile') }}">
+                <a href="{{ url_for('your_profile') }}">
+    <img src="{{ url_for('static', filename='profile_pics/' ~ current_user.profile_pic if logged_in else 'user.png') }}"
+         alt="User" width="30" height="30"
+         style="border-radius: 50%; object-fit: cover;">
+</a>
+
+            </a>
+        </div>
+    </nav>
+
+    <!-- -------- FLOATING BACKGROUND SHAPES -------- -->
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+
+
+    <!-- -------- MAIN CONTENT -------- -->
+    <div class="container">
+
+        <h1>AI-Powered Resume Question Generator</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+            <label><b>Upload Resume (.pdf or .docx):</b></label><br><br>
+            <input type="file" name="resume" required>
+            <button type="submit">Generate Questions</button>
+        </form>
+
+        {% if error %}
+        <p style="color:#ff8a8a; font-weight:600;">{{ error }}</p>
+        {% endif %}
+
+        {% if skills %}
+        <div class="skills">
+            <h2>Extracted Technical Skills:</h2>
+            <ul>
+                {% for skill in skills %}
+                    <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if questions %}
+        <div class="questions">
+            <h2>Generated Interview Questions:</h2>
+
+            {% for skill, qs in questions.items() %}
+                <h3>{{ skill | capitalize }}</h3>
+                <ul>
+                    {% for q in qs %}
+                        <li>{{ q }}</li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+        {% endif %}
+
     </div>
-  {% endif %}
 
-  {% if questions %}
-    <div class="questions">
-      <h2>Generated Interview Questions:</h2>
-      {% for skill, qs in questions.items() %}
-        <h3>{{ skill | capitalize }}</h3>
-        <ul>
-          {% for q in qs %}
-            <li>{{ q }}</li>
-          {% endfor %}
-        </ul>
-      {% endfor %}
-    </div>
-  {% endif %}
 </body>
 </html>

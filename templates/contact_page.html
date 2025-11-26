@@ -4,66 +4,270 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - Career Toolkit</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #e9ecef; padding-top: 60px; }
-        .navbar { 
-            position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center;
-            background-color: #343a40; padding: 10px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 1000;
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            padding-top: 80px; /* navbar spacing */
+            font-family: "Poppins", sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: #0f0f10;
+            color: white;
         }
-        .navbar-brand { color: #ffffff; text-decoration: none; font-size: 1.5em; font-weight: 600; }
-        .contact-container { max-width: 600px; margin: 80px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .back-link { display: block; margin-top: 20px; font-size: 1em; color: #dc3545; text-decoration: none; }
+
+        /* 🌐 NAVIGATION BAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #343a40;
+            padding: 12px 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 2000;
+        }
+
+        .navbar-brand {
+            color: #ffffff;
+            font-size: 1.6em;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: 0.3s ease;
+        }
+
+        .navbar-links a:hover {
+            background-color: #007bff;
+        }
+
+        /* 🌊 Animated Wave Background */
+        canvas#waveCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.65;
+            z-index: -1;
+        }
+
+        /* Glassmorphism Contact Box */
+        .contact-container {
+            width: 90%;
+            max-width: 650px;
+            margin: 80px auto;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(18px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 35px rgba(0,0,0,0.4);
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #ffd43b;
+        }
+
+        p.lead {
+            color: #e6e6e6;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.18);
+            color: white;
+            font-size: 15px;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #dcdcdc;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #ffd43b, #ff7f00);
+            border: none;
+            font-weight: 600;
+            color: #000;
+            font-size: 17px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 0px 18px rgba(255, 185, 0, 0.8);
+        }
+
+        .back-link {
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+            color: #ffd43b;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #fff3bf;
+            transform: scale(1.05);
+        }
     </style>
+
 </head>
 <body>
+
+    <!-- 🌐 NAVBAR -->
     <nav class="navbar">
         <a href="{{ url_for('main_index') }}" class="navbar-brand">🚀 Career Toolkit</a>
-    </nav>
-    
-    <div class="container">
-        <div class="contact-container">
-            <h1 class="mb-4 text-warning">Get in Touch</h1>
-            <p class="lead">We'd love to hear your feedback, bug reports, or partnership inquiries.</p>
-            <hr>
 
-            <!-- FLASH MESSAGE BLOCK -->
-            {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                {% for category, message in messages %}
-                  <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                  </div>
-                {% endfor %}
-              {% endif %}
-            {% endwith %}
+        <div class="navbar-links">
+            <a href="{{ url_for('main_index') }}">Home</a>
+            <a href="{{ url_for('about_page') }}">About</a>
+            <a href="{{ url_for('contact_page') }}">Contact</a>
+            <a href="{{ url_for('help_page') }}">Help</a>
+            <a href="{{ url_for('your_profile') }}">Profile</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
 
-            <!-- CONTACT FORM -->
-            <form action="{{ url_for('contact_page') }}" method="POST">
-                <div class="mb-3">
-                    <label for="name" class="form-label">Your Name</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email Address</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
-                </div>
-                <div class="mb-3">
-                    <label for="message" class="form-label">Message</label>
-                    <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-warning w-100 mb-3 text-dark">Send Message</button>
-            </form>
+            <a href="{{ url_for('your_profile') }}">
+                <a href="{{ url_for('your_profile') }}">
+    <img src="{{ url_for('static', filename='profile_pics/' ~ current_user.profile_pic if logged_in else 'user.png') }}"
+         alt="User" width="30" height="30"
+         style="border-radius: 50%; object-fit: cover;">
+</a>
 
-            <div class="mt-4">
-                <p><strong>Email:</strong> mahesh.mahi2404@gmail.com</p>
-                <p><strong>Phone:</strong> +91 7004277387</p>
-            </div>
+            </a>
         </div>
-        <a href="{{ url_for('main_index') }}" class="back-link">← Back to Dashboard</a>
+    </nav>
+
+    <!-- 🌊 Wave Background -->
+    <canvas id="waveCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById("waveCanvas");
+        const ctx = canvas.getContext("2d");
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener("resize", resizeCanvas);
+
+        let t = 0;
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const colors = ["#4c6ef5", "#15aabf", "#ff6bcb"];
+            const lineCount = 5;
+
+            for (let i = 0; i < lineCount; i++) {
+                ctx.beginPath();
+                ctx.lineWidth = 1.8;
+                ctx.strokeStyle = colors[i % colors.length];
+
+                for (let x = 0; x < canvas.width; x++) {
+                    const y =
+                        Math.sin((x * 0.01) + t + i) * 30 +
+                        Math.sin((x * 0.02) + t * 0.5) * 20 +
+                        canvas.height / 2 +
+                        i * 40;
+
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+
+                ctx.stroke();
+            }
+
+            t += 0.015;
+            requestAnimationFrame(draw);
+        }
+
+        draw();
+    </script>
+
+    <!-- 🌐 Contact Box -->
+    <div class="contact-container">
+        <h1>Get in Touch</h1>
+        <p class="lead">We’d love to hear your feedback, bug reports, or partnership inquiries.</p>
+        <hr style="border-color: rgba(255,255,255,0.2);">
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <!-- CONTACT FORM -->
+        <form method="POST" action="{{ url_for('contact_page') }}">
+            <label>Your Name</label>
+            <input type="text" name="name" required>
+
+            <label>Email Address</label>
+            <input type="email" name="email" required>
+
+            <label>Message</label>
+            <textarea name="message" rows="4" required></textarea>
+
+            <button type="submit">Send Message</button>
+        </form>
+
+        <div class="mt-4">
+            <p><strong>Email:</strong> mahesh.mahi2404@gmail.com</p>
+            <p><strong>Phone:</strong> +91 7004277387</p>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <a href="{{ url_for('main_index') }}" class="back-link">← Back to Dashboard</a>
+
 </body>
 </html>

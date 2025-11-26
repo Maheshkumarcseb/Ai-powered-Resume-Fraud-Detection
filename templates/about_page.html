@@ -4,51 +4,248 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Career Toolkit</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #e9ecef; padding-top: 60px; }
-        .navbar { 
-            position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center;
-            background-color: #343a40; padding: 10px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 1000;
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            padding-top: 80px; /* space for navbar */
+            font-family: "Poppins", sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: white;
+            background: #0f0f10;
+            position: relative;
         }
-        .navbar-brand { color: #ffffff; text-decoration: none; font-size: 1.5em; font-weight: 600; }
-        .about-container { max-width: 800px; margin: 80px auto; padding: 40px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; }
-        .back-link { display: block; margin-top: 20px; font-size: 1em; color: #dc3545; text-decoration: none; text-align: center; }
+
+        /* 🌐 NAVIGATION BAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #343a40;
+            padding: 12px 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 2000;
+        }
+
+        .navbar-brand {
+            color: #ffffff;
+            font-size: 1.6em;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navbar-links a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 5px 12px;
+            border-radius: 6px;
+            transition: 0.3s ease;
+        }
+
+        .navbar-links a:hover {
+            background-color: #007bff;
+        }
+
+        /* 🌊 Modern Animated Wave Lines Background */
+        canvas#waveCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.65;
+        }
+
+        /* Glassmorphism Box */
+        .about-container {
+            width: 90%;
+            max-width: 850px;
+            margin: 60px auto 90px auto;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(18px);
+            padding: 45px;
+            border-radius: 20px;
+            box-shadow: 0 8px 35px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #74c0fc;
+        }
+
+        p.lead {
+            font-size: 18px;
+            color: #e6e6e6;
+            margin-bottom: 40px;
+        }
+
+        h4 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            text-align: left;
+            margin-left: 20px;
+            line-height: 1.8;
+            color: #f1f1f1;
+        }
+
+        .section { margin-bottom: 30px; }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            color: #cccccc;
+            font-size: 15px;
+        }
+
+        .back-link {
+            display: block;
+            margin: 20px auto;
+            color: #ffd43b;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: 0.3s ease;
+            width: fit-content;
+        }
+
+        .back-link:hover {
+            color: #fff3bf;
+            transform: scale(1.05);
+        }
     </style>
 </head>
+
 <body>
+
+    <!-- 🌐 NAVIGATION BAR -->
     <nav class="navbar">
         <a href="{{ url_for('main_index') }}" class="navbar-brand">🚀 Career Toolkit</a>
-    </nav>
-    
-    <div class="container">
-        <div class="about-container">
-            <h1 class="mb-4 text-primary">About the Integrated Career Toolkit</h1>
-            <p class="lead mb-5">
-                Our mission is to empower job seekers by providing a powerful, all-in-one suite of AI-driven tools to enhance resumes, analyze digital profiles, and prepare for interviews.
-            </p>
-            
-            <div class="row text-start">
-                <div class="col-md-6 mb-4">
-                    <h4 class="text-success"> Our Vision</h4>
-                    <p>To bridge the gap between candidate qualifications and employer expectations using intelligent analysis, making the job search process more transparent and effective.</p>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <h4 class="text-info"> Key Features</h4>
-                    <ul>
-                        <li>**ATS Scorer:** Maximize resume keyword matching.</li>
-                        <li>**AI Question Generator:** Prepare for interviews based on your specific skills.</li>
-                        <li>**Profile Dashboard:** Synchronize your resume with your LinkedIn presence.</li>
-                        <li>**Plagiarism Check:** Ensure your resume is unique and professional.</li>
-                    </ul>
-                </div>
-            </div>
 
-            <div class="mt-4 pt-4 border-top">
-                <p class="text-muted">Developed with Flask, Python, and modern machine learning technologies.</p>
-            </div>
+        <div class="navbar-links">
+            <a href="{{ url_for('main_index') }}">Home</a>
+            <a href="{{ url_for('about_page') }}">About</a>
+            <a href="{{ url_for('contact_page') }}">Contact</a>
+            <a href="{{ url_for('help_page') }}">Help</a>
+            <a href="{{ url_for('your_profile') }}">Profile</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+
+            <a href="{{ url_for('your_profile') }}">
+                <a href="{{ url_for('your_profile') }}">
+    <img src="{{ url_for('static', filename='profile_pics/' ~ current_user.profile_pic if logged_in else 'user.png') }}"
+         alt="User" width="30" height="30"
+         style="border-radius: 50%; object-fit: cover;">
+</a>
+
+            </a>
         </div>
-        <a href="{{ url_for('main_index') }}" class="back-link">← Back to Dashboard</a>
+    </nav>
+
+    <!-- 🎬 Animated Wave Lines Background -->
+    <canvas id="waveCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById("waveCanvas");
+        const ctx = canvas.getContext("2d");
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener("resize", resizeCanvas);
+
+        let t = 0;
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const colors = ["#4c6ef5", "#15aabf", "#ff6bcb"];
+            const lineCount = 5;
+
+            for (let i = 0; i < lineCount; i++) {
+                ctx.beginPath();
+                ctx.lineWidth = 1.8;
+                ctx.strokeStyle = colors[i % colors.length];
+
+                for (let x = 0; x < canvas.width; x++) {
+                    const y =
+                        Math.sin((x * 0.01) + t + i) * 30 +
+                        Math.sin((x * 0.02) + t * 0.5) * 20 +
+                        canvas.height / 2 +
+                        i * 40;
+
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+
+                ctx.stroke();
+            }
+
+            t += 0.015;
+            requestAnimationFrame(draw);
+        }
+
+        draw();
+    </script>
+
+    <!-- 🌐 Content Section -->
+    <div class="about-container">
+        <h1>About the Integrated Career Toolkit</h1>
+
+        <p class="lead">
+            Our mission is to empower job seekers with a powerful AI-driven ecosystem that enhances resumes,
+            analyzes digital profiles, and prepares candidates for interviews.
+        </p>
+
+        <div class="section">
+            <h4 style="color:#4dd4ac;">Our Vision</h4>
+            <p>
+                To bridge the gap between candidate skills and employer expectations
+                through intelligent, automated insights.
+            </p>
+        </div>
+
+        <div class="section">
+            <h4 style="color:#74c0fc;">Key Features</h4>
+            <ul>
+                <li><strong>ATS Scorer:</strong> Optimize resume keyword matching.</li>
+                <li><strong>GitHub Analyzer:</strong> Reveal coding strengths.</li>
+                <li><strong>AI Question Generator:</strong> Personalized interview prep.</li>
+                <li><strong>Profile Dashboard:</strong> Sync resume skills with LinkedIn.</li>
+                <li><strong>Plagiarism Checker:</strong> Ensure resume originality.</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            Built using Flask, Python, and Next-Generation AI technologies.
+        </div>
     </div>
+
+    <a href="{{ url_for('main_index') }}" class="back-link">← Back to Dashboard</a>
+
 </body>
 </html>

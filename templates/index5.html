@@ -1,16 +1,184 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Resume Plagiarism Checker</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            padding-top: 80px; /* Navbar space */
+            font-family: "Poppins", sans-serif;
+            background: #0f0f10;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ---------------- NAVIGATION BAR ---------------- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #343a40;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 2000;
+        }
+
+        .navbar-brand {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-links a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 20px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar-links a:hover {
+            background-color: #007bff;
+        }
+
+        /* ---------------- FLOATING BACKGROUND SHAPES ---------------- */
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.5;
+            animation: float 8s infinite alternate ease-in-out;
+            z-index: -1;
+        }
+
+        .shape1 {
+            width: 350px;
+            height: 350px;
+            background: #4c6ef5;
+            top: 40px;
+            left: -80px;
+        }
+
+        .shape2 {
+            width: 330px;
+            height: 330px;
+            background: #15aabf;
+            bottom: 40px;
+            right: -40px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(40px); }
+        }
+
+        /* ---------------- GLASS CONTAINER ---------------- */
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.10);
+            backdrop-filter: blur(18px);
+            padding: 35px;
+            color: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 35px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 30px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            outline: none;
+            font-size: 14px;
+        }
+
+        button {
+            margin-top: 15px;
+            background: linear-gradient(135deg, #4c6ef5, #15aabf);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 17px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(21,170,191,0.8);
+        }
+    </style>
 </head>
+
 <body>
+
+    <!-- ---------------- NAVBAR ---------------- -->
+    <nav class="navbar">
+        <a href="{{ url_for('main_index') }}" class="navbar-brand">🚀 Career Toolkit</a>
+
+        <div class="navbar-links">
+            <a href="{{ url_for('about_page') }}">About Us</a>
+            <a href="{{ url_for('contact_page') }}">Contact</a>
+            <a href="{{ url_for('help_page') }}">Help</a>
+            <a href="{{ url_for('login_page') }}">Login</a>
+            <a href="{{ url_for('signup_page') }}">Sign Up</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+
+            <a href="{{ url_for('your_profile') }}">
+                <a href="{{ url_for('your_profile') }}">
+    <img src="{{ url_for('static', filename='profile_pics/' ~ current_user.profile_pic if logged_in else 'user.png') }}"
+         alt="User" width="30" height="30"
+         style="border-radius: 50%; object-fit: cover;">
+</a>
+
+            </a>
+        </div>
+    </nav>
+
+    <!-- ---------------- FLOATING BACKGROUND SHAPES ---------------- -->
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+
+    <!-- ---------------- MAIN CONTENT ---------------- -->
     <div class="container">
-        <h2>Upload Your Resume</h2>
+        <h2>Resume Plagiarism Checker</h2>
+
         <form method="POST" enctype="multipart/form-data">
             <input type="file" name="resume" required>
             <button type="submit">Check Plagiarism</button>
         </form>
     </div>
+
 </body>
 </html>

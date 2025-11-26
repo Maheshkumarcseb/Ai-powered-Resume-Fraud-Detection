@@ -1,61 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Career Toolkit</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #e9ecef; padding-top: 60px; }
-        .navbar { 
-            position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center;
-            background-color: #343a40; padding: 10px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 1000;
-        }
-        .navbar-brand { color: #ffffff; text-decoration: none; font-size: 1.5em; font-weight: 600; }
-        .login-card { max-width: 400px; margin: 80px auto; }
-        .back-link { display: block; margin-top: 20px; font-size: 1em; color: #dc3545; text-decoration: none; text-align: center; }
-    </style>
+<meta charset="UTF-8">
+<title>Login - Career Toolkit</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
+
+body {
+    margin: 0;
+    padding-top: 60px;
+    background: #000;
+    color: #0ff;
+    font-family: "Orbitron", sans-serif;
+    overflow: hidden;
+}
+
+/* MATRIX ANIMATION */
+canvas#matrix {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+    opacity: 0.6;
+}
+
+/* LOGIN BOX */
+.login-box {
+    width: 90%;
+    max-width: 420px;
+    margin: 120px auto;
+    padding: 40px;
+    background: rgba(0,255,255,0.05);
+    border: 2px solid #00ffff88;
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    box-shadow: 0 0 25px #00ffff44;
+    text-align: center;
+}
+
+.login-title {
+    font-size: 28px;
+    color: #00eaff;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 12px 0;
+    background: transparent;
+    border: 1.5px solid #00eaff;
+    border-radius: 8px;
+    color: #0ff;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #00eaff;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #00ffff;
+    box-shadow: 0 0 20px #00eaff;
+}
+</style>
+
 </head>
 <body>
-    <nav class="navbar">
-        <a href="{{ url_for('main_index') }}" class="navbar-brand">🚀 Career Toolkit</a>
-    </nav>
-    
-    <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert" style="max-width: 400px; margin: 10px auto;">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        <div class="card login-card shadow-lg">
-            <div class="card-body p-5">
-                <h3 class="card-title text-center mb-4 text-primary">Log In</h3>
-                
-                <form action="{{ url_for('login_page') }}" method="POST">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
-                    <p class="text-center">
-                        Don't have an account? <a href="{{ url_for('signup_page') }}">Sign Up here</a>
-                    </p>
-                </form>
 
-            </div>
-        </div>
-        <a href="{{ url_for('main_index') }}" class="back-link">← Back to Dashboard</a>
-    </div>
+<canvas id="matrix"></canvas>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// MATRIX RAIN
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+chars = chars.split("");
+
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+
+let drops = [];
+for (let x = 0; x < columns; x++) drops[x] = 1;
+
+function draw() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#0ff";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+        let text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+        }
+        drops[i]++;
+    }
+}
+setInterval(draw, 35);
+</script>
+
+<div class="login-box">
+    <div class="login-title">USER LOGIN</div>
+
+    <form method="POST" action="{{ url_for('login_page') }}">
+        <input type="email" name="email" placeholder="Enter Email" required>
+        <input type="password" name="password" placeholder="Enter Password" required>
+        <button type="submit">LOGIN</button>
+    </form>
+</div>
+
 </body>
 </html>

@@ -3,42 +3,193 @@
 <head>
   <meta charset="UTF-8">
   <title>GitHub Analysis Result</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f3f3f3;
-      padding: 30px;
-      text-align: center;
+      margin: 0;
+      padding: 0;
+      padding-top: 80px;
+      font-family: "Poppins", sans-serif;
+      background: #0f0f10;
+      overflow-x: hidden;
+      min-height: 100vh;
+      color: white;
     }
+
+    /* ---------------- NAVIGATION BAR ---------------- */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #343a40;
+      padding: 10px 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      z-index: 2000;
+    }
+
+    .navbar-brand {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.5em;
+      font-weight: 600;
+    }
+
+    .navbar-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-links a {
+      color: #ffffff;
+      text-decoration: none;
+      margin-left: 20px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .navbar-links a:hover {
+      background-color: #007bff;
+    }
+
+    /* ---------------- FLOATING SHAPES ---------------- */
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.5;
+      animation: float 8s infinite alternate ease-in-out;
+      z-index: -1;
+    }
+
+    .shape1 {
+      width: 350px;
+      height: 350px;
+      background: #4c6ef5;
+      top: 30px;
+      left: -80px;
+    }
+
+    .shape2 {
+      width: 330px;
+      height: 330px;
+      background: #15aabf;
+      bottom: 30px;
+      right: -50px;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(40px); }
+    }
+
+    /* ---------------- GLASS CARD ---------------- */
     .card {
-      background: #fff;
-      padding: 25px;
-      border-radius: 10px;
-      width: 400px;
+      width: 90%;
+      max-width: 550px;
       margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(18px);
+      padding: 35px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 8px 35px rgba(0,0,0,0.4);
+      color: white;
     }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    ul {
+      text-align: left;
+      margin: 15px auto;
+      width: 80%;
+      font-size: 15px;
+    }
+
+    a.button {
+      display: inline-block;
+      margin-top: 20px;
+      background: linear-gradient(135deg, #4c6ef5, #15aabf);
+      padding: 12px 35px;
+      border-radius: 50px;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      transition: 0.3s ease;
+    }
+
+    a.button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(21,170,191,0.8);
+    }
+
   </style>
 </head>
+
 <body>
+
+  <!-- ---------------- NAVBAR ---------------- -->
+  <nav class="navbar">
+    <a href="{{ url_for('main_index') }}" class="navbar-brand">🚀 Career Toolkit</a>
+
+    <div class="navbar-links">
+      <a href="{{ url_for('about_page') }}">About Us</a>
+      <a href="{{ url_for('contact_page') }}">Contact</a>
+      <a href="{{ url_for('help_page') }}">Help</a>
+      <a href="{{ url_for('login_page') }}">Login</a>
+      <a href="{{ url_for('signup_page') }}">Sign Up</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+
+      <a href="{{ url_for('your_profile') }}">
+        <img src="{{ url_for('static', filename='user.png') }}" 
+             alt="User" width="30" height="30">
+      </a>
+    </div>
+  </nav>
+
+  <!-- ---------------- FLOATING SHAPES ---------------- -->
+  <div class="shape shape1"></div>
+  <div class="shape shape2"></div>
+
+  <!-- ---------------- MAIN CARD ---------------- -->
   <div class="card">
+
     {% if analysis.error %}
       <h2>{{ analysis.error }}</h2>
+
     {% else %}
       <h2>GitHub Profile Analysis</h2>
+
       <p><strong>Name:</strong> {{ analysis.name }}</p>
       <p><strong>Username:</strong> {{ analysis.username }}</p>
       <p><strong>Followers:</strong> {{ analysis.followers }}</p>
       <p><strong>Following:</strong> {{ analysis.following }}</p>
       <p><strong>Public Repos:</strong> {{ analysis.public_repos }}</p>
+
       <p><strong>Top Repositories:</strong></p>
       <ul>
         {% for repo in analysis.top_repos %}
           <li>{{ repo }}</li>
         {% endfor %}
       </ul>
-      <a href="{{ analysis.profile_link }}" target="_blank">View Profile</a>
+
+      <a class="button" href="{{ analysis.profile_link }}" target="_blank">View GitHub Profile</a>
+
     {% endif %}
+
   </div>
+
 </body>
 </html>
